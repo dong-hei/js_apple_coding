@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="alert-box" id="onAlert">
+        <p id = "title">알림창</p>
+        <button onclick="onAlert('none')">닫기</button></div>
+    
+    <button onclick="onAlert('block')">버튼</button>
+    <button onclick="onAlert2('block')">버튼2</button>
+<script>
+
+    function onAlert(a){
+        document.getElementById('onAlert').style.display = a;
+        document.getElementById('title').innerHTML = '아이디를 입력하세요.';
+        // getElementsByClassName() 클래스 명으로 찾기 가능
+    }
+    
+    onAlert(a);
+
+    function onAlert2(a){
+        document.getElementById('onAlert').style.display = a;
+        document.getElementById('title').innerHTML = '비밀번호를 입력하세요.';
+    }
+    
+    onAlert(block);
+
+
+
+
+
+    // 하나의 함수를 다채롭게 사용하기위해 parameter를 사용한다.
+
+    // function closeAlert(){
+    //     document.getElementById('onAlert').style.display='none';
+    // }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="style_submenu.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-sm-4">
+              <img src="https://via.placeholder.com/600" class="w-100">
+              <h5>Card title</h5>
+              <p>가격 : 70000</p>
+            </div> -->
+        </div>
+        </div>
+        <div class="container">
+        <button class="btn btn-primary" id="more">더보기</button>
+        <button class="btn btn-danger" id="sort">낮은 가격순으로 보기</button>
+        <button class="btn btn-danger" id="sortKorean">다나가 순으로 정렬하기</button>
+        <button class="btn btn-secondary" id="filter">3만원 미만 상품보기</button>
+
+    </div>
+  <script>
+
+
+$('#more').on('click',(event)=>{
+    $.get('https://codingapple1.github.io/js/more1.json').done((data)=>{
+    data.forEach((a, newArrival)=>{
+        let template = 
+    `  <div class="col-sm-4">
+              <img src="https://via.placeholder.com/600" class="w-100">
+              <h5>${data[newArrival].title}</h5>
+              <p>가격 : ${data[newArrival].price}</p>
+            </div>`;
+            $('.row').append(template).off(event);
+    }) //ajax 요청한 값 바인딩하기
+})
+});
+    let products = [
+      { id : 0, price : 23000, title : '김민재 나폴리 홈 유니폼' },
+      { id : 1, price : 22800, title : '황희찬 울버햄튼 홈 유니폼' },
+      { id : 2, price : 31800, title : '맨유 유니폼 홈 긴팔 유니폼 어센틱 22-23' },
+    ];
+    
+    products.forEach((data, idNum)=>{
+        let template = 
+    `  <div class="col-sm-4">
+              <img src="https://via.placeholder.com/600" class="w-100">
+              <h5>${products[idNum].title}</h5>
+              <p>가격 : ${products[idNum].price}</p>
+              <button class="btn btn-secondary">구매</button>
+            </div>`;
+    $('.row').append(template);
+    });
+
+    $('.col-sm-4').click(function(e){
+    var title = $(e.target).siblings('h5').text();
+    if (localStorage.getItem('cart') != null ){
+    var saved = JSON.parse(localStorage.cart);
+    saved.push(title);
+    localStorage.setItem('cart', JSON.stringify(saved));
+  } else {
+    localStorage.setItem('cart', JSON.stringify([title]))
+  }
+});
+
+    $('#sort').click(()=>{
+        products.sort(function(a, b){
+            return a.price - b.price;
+            //a-b 결과가 양수면 a값을 오른쪽으로 보낸다.
+        });
+
+        $('.row').html('');
+
+        products.forEach((data, idNum)=>{
+        let template = 
+    `  <div class="col-sm-4">
+              <img src="https://via.placeholder.com/600" class="w-100">
+              <h5>${products[idNum].title}</h5>
+              <p>가격 : ${products[idNum].price}</p>
+            </div>`;
+    $('.row').append(template);
+    }) //낮은가격순으로 정렬
+    });
+
+    $('#sortKorean').click(()=>{
+        products.sort(function(a, b){
+           if (a.title < b.title){
+            return 1
+           } else{
+            return -1
+           }
+           
+            //다나가 순으로 정렬 b가 더 크면 양수 a가 더 크면 음수 반환 -> b가 더 크면 a값을 오른쪽으로 보낸다 
+        });
+
+        $('.row').html('');
+
+        products.forEach((data, idNum)=>{
+        let template = 
+    `  <div class="col-sm-4">
+              <img src="https://via.placeholder.com/600" class="w-100">
+              <h5>${products[idNum].title}</h5>
+              <p>가격 : ${products[idNum].price}</p>
+            </div>`;
+    $('.row').append(template);
+    }) //낮은가격순으로 정렬
+    });
+
+    $('#filter').click(()=>{
+    let newProduct = products.filter((val)=>{
+        return val.price < 30000
+    });
+
+    $('.row').html('');
+
+    newProduct.forEach((data, idNum)=>{
+    let template = 
+    `  <div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${newProduct[idNum].title}</h5>
+        <p>가격 : ${newProduct[idNum].price}</p>
+        </div>`;
+    $('.row').append(template);
+    }) //3만원미만 상품만 보기
+});
+    
+
+    
+ 
+
+
+  </script> 
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    </body>
+    </html>

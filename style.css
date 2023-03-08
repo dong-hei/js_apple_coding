@@ -1,0 +1,8 @@
+.alert-box{
+    background: rgb(182, 182, 238);
+    color: rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+    /* display none는 숨기기 */
+}

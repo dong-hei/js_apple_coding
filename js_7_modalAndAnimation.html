@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>샘플 JS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="style_submenu.css">
+    <script
+    src="https://code.jquery.com/jquery-3.6.3.js"
+    integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style_modalAndAnimation.css">
+</head>
+<body>
+    <div class="nv black">
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <span class="navbar-brand">쇼핑몰 이다!</span>
+          <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav> 
+      <ul class="list-group">
+        <li class="list-group-item">아우터</li>
+        <li class="list-group-item">티셔츠</li>
+        <li class="list-group-item">셔츠</li>
+        <li class="list-group-item">바지</li>
+        <li class="list-group-item">신발</li>
+        <li class="list-group-item">악세사리</li>
+        <li class="list-group-item">화장품</li>
+      </ul>
+    </div>
+
+    <div class="black-bg">
+        <div class="white-bg">
+          <form action="success.html">
+            <div class="my-3">
+                <p>아이디</p>
+                <input type="text" id="userId" class="form-control">
+            </div>
+            <div class="my-3">
+                <p>비밀번호</p>
+                <input type="password" id="userPw" class="form-control">
+            </div>
+            <button type="submit" id="send" class="btn btn-primary">전송</button>
+            <button type="button" class="btn btn-danger" id="close">닫기</button>
+        </form>
+        <!-- 폼태그 안에 submit 버튼은 반드시 있어야 된다, 서버로 유저정보를 전송하기 위함 -->
+        </div>
+    </div>
+
+    <div class="main-bg">
+        <h4>Sale On!</h4>
+        <button type="button" id="login-btn" class="btn btn-secondary">로그인</button>
+    </div>
+    <div class="clause" style="width: 200px; height: 100px; overflow-y: scroll">
+    이 약관은 전기통신사업법령 및 정보통신망이용촉진 및 정보보호 등에 관한 법률에 따라 한겨레신문㈜ 및 관계사{씨네21 ㈜(이상, 자회사) ㈜한겨레플러스(이상, 제휴사)} (이하 `회사`)에서 제공하는 모든 서비스(이하 `서비스`)의 이용절차,조건등 서비스 이용과 관련한 회사와 회원의 권리 및 의무에 관련된 사항을 규정함을 목적으로 합니다.
+    </div>
+    <span class="badge text-bg-dark">Dark모드로 보기 🌙</span>
+
+    <div style="height: 1000px"></div>
+
+    <script>
+    $('.clause').on('scroll',function(){
+        let scroll = document.querySelector('.clause').scrollTop; //스크롤 내린양
+        let realHeight = document.querySelector('.clause').scrollHeight //실제 높이
+        let height = document.querySelector('.clause').clientHeight; // 높이
+
+        if (scroll + height > realHeight -10){
+            alert('약관을 다 읽었습니다.')
+        }
+        //scrollEventerListener는 1초에 60번 실행한다. 바닥체크 여러번 중복한다.
+    })
+    let count = 0;
+    $('.badge').on('click',function(){
+        count = !count;
+        if(count === true){
+            $('.badge').html(`<span class="badge text-bg-secondary">light모드로 보기 ☀</span>`); 
+            $('.nv').addClass('dark');
+            $('body').addClass('dark');
+             } else{
+                    $('.badge').html(`<span class="badge bg-dark">Dark모드로 보기 🌙</span>`);
+                    $('.nv').removeClass('dark');
+                    $('body').removeClass('dark');
+        }
+    })       
+
+
+    $('form').on('submit',function(e){
+        if(document.getElementById('userId').value == ''){
+            alert('아이디는 필수조건입니다.')
+            e.preventDefault();
+            // 폼 전송을 막는다
+        }
+    });
+
+    $('form').on('submit',function(e){
+        if(document.getElementById('userPw').value == ''){
+            alert('비밀번호는 필수조건입니다.')
+            e.preventDefault();
+        }
+        if(document.getElementById('userPw').value.length < 6){
+            alert("비밀번호는 6글자 이상입니다.")
+            e.preventDefault();
+        }
+    });     
+
+    document.querySelector('.navbar-toggler').addEventListener('click',show);
+
+    function show(){
+    document.querySelectorAll('.list-group')[0].classList.toggle('show');
+    }
+
+     document.getElementById('login-btn').addEventListener('click',onModal)
+     function onModal(){
+      document.querySelector('.black-bg').classList.add('show-modal')
+     }
+
+     document.getElementById("close").addEventListener('click',close)
+     function close(){
+      document.querySelector('.black-bg').classList.remove('show-modal')
+     }
+
+     document.querySelector('.black-bg').addEventListener('click',function(e){
+    
+        if(e.target == document.querySelector('.black-bg')){
+        document.querySelector('.black-bg').classList.remove('show-modal');
+    }    
+    }
+    );
+
+    //  document.querySelector('.black-bg').addEventListener('click',function(){
+    //     document.querySelector('.black-bg').classList.remove('show-modal');
+    //  }) //다른 버튼을 눌러도 모달창이 닫힌다? -> 이벤트가 상위 html로 퍼지는 이벤트 버블링현상이 있다.
+
+     $(window).on('scroll',function(){
+         //스크롤했을때 이벤트 발생 및 스크롤바 위치 출력(스크롤) 스크롤 위치가 100 이상 될때마다 폰트가 작아진다.
+        if(window.scrollY > 100){
+        $('.navbar-brand').css('font-size', '15px');}
+        else {
+            $('.navbar-brand').css('font-size', '25px');}
+        
+     });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    
+
+</body>
+</html>
